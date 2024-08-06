@@ -8,6 +8,26 @@ class ScaffoldHestiaTables extends Delta
 {
     public function change()
     {
+        Scaffold::create('hestia_profiles', function (Structure $entity) {
+            $entity->incrementer('profile_id');
+            $entity->numeric('user_id')->foreign('users', 'user_id');
+            $entity->text('title')->null();
+            $entity->text('first_name');
+            $entity->text('last_name');
+            $entity->text('suffix')->null();
+            $entity->decimal('budget', 10, 2)->null();
+            $entity->numeric('budget_frequency')->null();
+            $entity->text('notes')->null();
+            $entity->timestamps();
+        });
+
+        Scaffold::create('hestia_profile_types', function (Structure $entity) {
+            $entity->incrementer('profile_type_id');
+            $entity->text('name');
+            $entity->text('description')->null();
+            $entity->timestamps();
+        });
+
         Scaffold::create('hestia_addresses', function (Structure $entity) {
             $entity->incrementer('address_id');
             $entity->numeric('parent_id');
@@ -147,7 +167,16 @@ class ScaffoldHestiaTables extends Delta
 
         Scaffold::create('hestia_lodging_requests', function (Structure $entity) {
             $entity->incrementer('lodging_request_id');
-            $entity->numeric('user_id');
+            $entity->numeric('profile_id')->foreign('profiles', 'profile_id');
+            $entity->numeric('budget');
+            $entity->text('location');
+            $entity->datetime('start_date');
+            $entity->numeric('duration');
+            $entity->numeric('number_of_rooms');
+            $entity->numeric('number_of_people');
+            $entity->boolean('pets');
+            $entity->boolean('smoking');
+            $entity->text('allergies');
             $entity->text('description')->null();
             $entity->text('notes')->null();
             $entity->text('status');
@@ -168,23 +197,21 @@ class ScaffoldHestiaTables extends Delta
             $entity->timestamps();
         });
 
-        Scaffold::create('hestia_profiles', function (Structure $entity) {
-            $entity->incrementer('profile_id');
-            $entity->numeric('user_id');
-            $entity->text('title')->null();
-            $entity->text('first_name');
-            $entity->text('last_name');
-            $entity->text('suffix')->null();
-            $entity->decimal('budget', 10, 2)->null();
-            $entity->numeric('budget_frequency')->null();
-            $entity->text('notes')->null();
-            $entity->timestamps();
-        });
-
-        Scaffold::create('hestia_profile_types', function (Structure $entity) {
-            $entity->incrementer('profile_type_id');
-            $entity->text('name');
+        Scaffold::create('hestia_roommate_requests', function (Structure $entity) {
+            $entity->incrementer('roommate_request_id');
+            $entity->numeric('profile_id')->foreign('profiles', 'profile_id');
+            $entity->numeric('budget');
+            $entity->text('location');
+            $entity->datetime('start_date');
+            $entity->numeric('duration');
+            $entity->numeric('number_of_rooms');
+            $entity->numeric('number_of_people');
+            $entity->boolean('pets');
+            $entity->boolean('smoking');
+            $entity->text('allergies');
             $entity->text('description')->null();
+            $entity->text('notes')->null();
+            $entity->text('status');
             $entity->timestamps();
         });
 
@@ -257,9 +284,9 @@ class ScaffoldHestiaTables extends Delta
             $entity->timestamps();
         });
 
-        Scaffold::create('service_requests', function (Structure $entity) {
+        Scaffold::create('hestia_service_requests', function (Structure $entity) {
             $entity->incrementer('service_request_id');
-            $entity->numeric('user_id')->foreign('users', 'user_id');
+            $entity->numeric('profile_id')->foreign('profiles', 'profile_id');
             $entity->numeric('lodging_id')->foreign('hestia_lodgings', 'lodging_id');
             $entity->text('title');
             $entity->text('description')->null();
@@ -269,7 +296,7 @@ class ScaffoldHestiaTables extends Delta
             $entity->timestamps();
         });
 
-        Scaffold::create('urgencies', function (Structure $entity) {
+        Scaffold::create('hestia_urgencies', function (Structure $entity) {
             $entity->incrementer('urgency_id');
             $entity->text('name');
             $entity->text('description')->null();
@@ -279,8 +306,8 @@ class ScaffoldHestiaTables extends Delta
 
     public function revert()
     {
-        Scaffold::delete('urgencies');
-        Scaffold::delete('service_requests');
+        Scaffold::delete('hestia_urgencies');
+        Scaffold::delete('hestia_service_requests');
         Scaffold::delete('hestia_service_types');
         Scaffold::delete('hestia_service_timeframe_units');
         Scaffold::delete('hestia_service_provider_to_services');
@@ -289,8 +316,7 @@ class ScaffoldHestiaTables extends Delta
         Scaffold::delete('hestia_services');
         Scaffold::delete('hestia_service_charge_types');
         Scaffold::delete('hestia_service_categories');
-        Scaffold::delete('hestia_profile_types');
-        Scaffold::delete('hestia_profiles');
+        Scaffold::delete('hestia_roommate_requests');
         Scaffold::delete('hestia_lodging_types');
         Scaffold::delete('hestia_lodging_stabilities');
         Scaffold::delete('hestia_lodging_requests');
@@ -308,5 +334,7 @@ class ScaffoldHestiaTables extends Delta
         Scaffold::delete('hestia_contact_detail_types');
         Scaffold::delete('hestia_contact_details');
         Scaffold::delete('hestia_addresses');
+        Scaffold::delete('hestia_profile_types');
+        Scaffold::delete('hestia_profiles');
     }
 }

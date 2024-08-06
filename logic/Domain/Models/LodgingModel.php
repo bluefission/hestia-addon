@@ -10,8 +10,6 @@ class LodgingModel extends Model {
 		'lodging_type_id',
 		'lodging_condition_id',
 		'profile_id',
-		'built_year',
-		'renovated_year',
 		'description',
 		'notes',
 		'created_at',

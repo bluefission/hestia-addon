@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"primary_file": "main.php",
 	"description": "AddOn for providing housing and home care services",
-	"namespace": "Addons\\Hestia",
+	"namespace": "AddOns\\Hestia",
 	"installer": ["AddOns\\Hestia\\Registration\\HestiaRegistration", "install"],
 	"uninstaller": ["AddOns\\Hestia\\Registration\\HestiaRegistration", "uninstall"],
 	"configs": [],

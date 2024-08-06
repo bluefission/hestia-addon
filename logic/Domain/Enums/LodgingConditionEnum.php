@@ -2,7 +2,7 @@
 
 namespace AddOns\Hestia\Domain\Enums;
 
-enum LodgingCondition: string {
+enum LodgingConditionEnum: string {
 	case LIKE_NEW = 'Like New';
 	case GOOD = 'Good';
 	case FAIR = 'Fair';

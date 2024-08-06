@@ -2,7 +2,7 @@
 
 namespace AddOns\Hestia\Domain\Enums;
 
-enum ProfileType: string {
+enum ProfileTypeEnum: string {
 	case OWNER = 'Owner';
 	case MANAGER = 'Manager';
 	case RESIDENT = 'Resident';

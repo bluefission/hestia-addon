@@ -13,6 +13,9 @@ use AddOns\Hestia\Domain\Models\ServiceTimeframeUnitModel;
 use AddOns\Hestia\Domain\Models\UrgencyModel;
 use AddOns\Hestia\Domain\Models\BudgetFrequencyModel;
 use AddOns\Hestia\Domain\Models\BookingStatusModel;
+use AddOns\Hestia\Domain\Models\LodgingMetaKeyModel;
+use AddOns\Hestia\Domain\Models\AgeModel;
+
 use AddOns\Hestia\Domain\Enums\ContactDetailTypeEnum;
 use AddOns\Hestia\Domain\Enums\ContactTypeEnum;
 use AddOns\Hestia\Domain\Enums\LodgingConditionEnum;
@@ -24,7 +27,9 @@ use AddOns\Hestia\Domain\Enums\ServiceCategoryEnum;
 use AddOns\Hestia\Domain\Enums\ServiceChargeTypeEnum;
 use AddOns\Hestia\Domain\Enums\ServiceTimeframeUnitEnum;
 use AddOns\Hestia\Domain\Enums\UrgencyEnum;
-use AddOns\Hestia\Domain\Enums\BookingStatusEnum
+use AddOns\Hestia\Domain\Enums\BookingStatusEnum;
+use AddOns\Hestia\Domain\Enums\LodgingMetaKeyEnum;
+use AddOns\Hestia\Domain\Enums\AgeEnum;
 
 class SystemDataSeeder extends Generator
 {
@@ -109,6 +114,20 @@ class SystemDataSeeder extends Generator
             $model = new BookingStatusModel();
             $model->name = $status->value;
             $model->description = $status->value;
+            $model->save();
+        }
+
+        foreach (LodgingMetaKeyEnum::cases() as $key) {
+            $model = new LodgingMetaKeyModel();
+            $model->name = $key->value;
+            $model->description = $key->value;
+            $model->save();
+        }
+
+        foreach (AgeEnum::cases() as $age) {
+            $model = new AgeModel();
+            $model->name = $age->value;
+            $model->description = $age->value;
             $model->save();
         }
     }

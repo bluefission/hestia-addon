@@ -12,7 +12,11 @@ enum LodgingTypeEnum: string {
 	case FOURPLEX = 'Fourplex';
 	case MOBILE_HOME = 'Mobile Home';
 	case RV = 'RV';
+	case VAN = 'Van';
 	case TINY_HOME = 'Tiny Home';
+	case HOUSEBOAT = 'Houseboat';
+	case BOAT = 'Boat';
+	case PENTHOUSE = 'Penthouse';
 	case CABIN = 'Cabin';
 	case COTTAGE = 'Cottage';
 	case BUNGALOW = 'Bungalow';
@@ -23,5 +27,7 @@ enum LodgingTypeEnum: string {
 	case GUEST_HOUSE = 'Guest House';
 	case TENT = 'Tent';
 	case YURT = 'Yurt';
-
+	case SHELTER = 'Shelter';
+	case HALFWAY_HOUSE = 'Halfway House';
+	case OTHER = 'Other';
 }

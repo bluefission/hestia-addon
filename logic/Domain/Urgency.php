@@ -1,8 +1,10 @@
 <?php
 
-namespace AddOns\Hestia\Domain\ValueObjects;
+namespace AddOns\Hestia\Domain;
 
-class Urgency
+use BlueFission\BlueCore\ValueObject;
+
+class Urgency extends ValueObject
 {
     public $urgency_id;
     public $name;

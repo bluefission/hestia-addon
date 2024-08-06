@@ -8,8 +8,6 @@ class Lodging extends ValueObject {
 	public $lodging_type_id;
 	public $lodging_condition_id;
 	public $profile_id;
-	public $built_year;
-	public $renovated_year;
 	public $description;
 	public $notes;
 	public $created_at;

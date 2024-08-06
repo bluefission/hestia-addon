@@ -3,8 +3,8 @@ namespace Addons\Hestia\Domain;
 
 use BlueFission\BlueCore\ValueObject;
 
-class LodgingRequest extends ValueObject {
-	public $lodging_request_id;
+class RoommateRequest extends ValueObject {
+	public $roommate_request_id;
 	public $profile_id;
 	public $budget;
 	public $location;

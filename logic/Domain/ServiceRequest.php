@@ -1,11 +1,14 @@
 <?php
 
-namespace AddOns\Hestia\Domain\ValueObjects;
+namespace AddOns\Hestia\Domain;
 
-class ServiceRequest
+use BlueFission\BlueCore\ValueObject;
+
+
+class ServiceRequest extends ValueObject
 {
     public $service_request_id;
-    public $user_id;
+    public $profile_id;
     public $lodging_id;
     public $title;
     public $description;

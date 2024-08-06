@@ -11,6 +11,7 @@ class Profile extends ValueObject {
 	public $first_name;
 	public $last_name;
 	public $suffix;
+	public $current_lodging_id;
 	public $lodging_stability_id;
 	public $budget;
 	public $budget_frequency_id;

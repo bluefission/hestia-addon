@@ -13,6 +13,8 @@ class ProfileModel extends Model {
 		'first_name',
 		'last_name',
 		'suffix',
+		'current_lodging_id',
+		'lodging_stability_id',
 		'budget',
 		'budget_frequency_id',
 		'notes',
@@ -41,5 +43,10 @@ class ProfileModel extends Model {
 	public function lodgings()
 	{
 		return $this->descendents(LodgingModel::class, 'profile_id');
+	}
+
+	public function currentLodging()
+	{
+		return $this->ancestor(LodgingModel::class, 'current_lodging_id', 'lodging_id');
 	}
 }

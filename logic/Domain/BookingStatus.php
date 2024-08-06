@@ -3,7 +3,7 @@ namespace Addons\Hestia\Domain;
 
 use BlueFission\BlueCore\ValueObject;
 
-class Booking extends ValueObject {
+class BookingStatus extends ValueObject {
 	public $booking_status_id;
 	public $name;
 	public $description;

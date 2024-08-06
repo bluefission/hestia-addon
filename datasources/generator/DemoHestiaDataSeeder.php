@@ -261,4 +261,3 @@ class DemoHestiaDataSeeder extends Generator
         }
     }
 }
-?>

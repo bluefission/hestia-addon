@@ -1,6 +1,6 @@
 <?php
 
-namespace AddOns\Hestia\Business\Http\Api\Admin;
+namespace AddOns\Hestia\Business\Http\Api;
 
 use BlueFission\Services\Request;
 use BlueFission\BlueCore\BaseController;

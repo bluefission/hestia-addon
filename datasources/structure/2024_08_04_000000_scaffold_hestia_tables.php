@@ -14,6 +14,8 @@ class ScaffoldHestiaTables extends Delta
             $entity->text('title')->null();
             $entity->text('first_name');
             $entity->text('last_name');
+            $entity->numeric('current_lodging_id');
+            $entity->numeric('lodging_stability_id');
             $entity->text('suffix')->null();
             $entity->decimal('budget', 10, 2)->null();
             $entity->numeric('budget_frequency')->null();
@@ -181,6 +183,21 @@ class ScaffoldHestiaTables extends Delta
             $entity->text('notes')->null();
             $entity->text('status');
             $entity->timestamps();
+        });
+
+        Scaffold::create('hestia_ages', function (Structure $entity) {
+            $entity->incrementer('age_id');
+            $entity->text('name');
+            $entity->text('description')->null();
+            $entity->timestamps();
+        });
+
+        Scaffold::create('hestia_additional_people', function (Structure $entity) {
+            $entity->incrementer('additional_person_id');
+            $entity->numeric('parent_id');
+            $entity->text('parent_type');
+            $entity->numeric('profile_id')->foreign('hestia_profiles', 'profile_id')->null();
+            $entity->numeric('age_id')->foreign('hestia_ages', 'age_id')->null();
         });
 
         Scaffold::create('hestia_lodging_stabilities', function (Structure $entity) {

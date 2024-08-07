@@ -1,7 +1,7 @@
 <?php
 namespace AddOns\Hestia\Domain\Queries;
 
-use BlueFission\Connections\Database\MysqlLink;
+use BlueFission\Connections\Database\MySQLLink;
 use BlueFission\BlueCore\Domain\Queries\GenericQuerySql;
 use AddOns\Hestia\Domain\Models\LodgingReportModel;
 use AddOns\Hestia\Domain\Models\ProfileModel;
@@ -11,7 +11,7 @@ class AllLodgingReportsByUserQuerySql implements IAllLodgingReportsByUserQuery e
 {
     private $_user;
 
-    public function __construct(MysqlLink $link, Authenticator $auth)
+    public function __construct(MySQLLink $link, Authenticator $auth)
     {
         $model = new LodgingReportModel();
         $this->_user = $auth->getUser();

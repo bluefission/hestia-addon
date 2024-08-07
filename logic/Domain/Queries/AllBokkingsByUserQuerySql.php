@@ -1,7 +1,7 @@
 <?php
 namespace AddOns\Hestia\Domain\Queries;
 
-use BlueFission\Connections\Database\MysqlLink;
+use BlueFission\Connections\Database\MySQLLink;
 use BlueFission\BlueCore\Domain\Queries\GenericQuerySql;
 use AddOns\Hestia\Domain\Models\BookingModel;
 use AddOns\Hestia\Domain\Models\ProfileModel;
@@ -11,7 +11,7 @@ class AllBookingsByUserQuerySql implements IAllBookingsByUserQuery extends Gener
 {
     private $_user;
 
-    public function __construct(MysqlLink $link, Authenticator $auth)
+    public function __construct(MySQLLink $link, Authenticator $auth)
     {
         $model = new BookingModel();
         $this->_user = $auth->getUser();

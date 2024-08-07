@@ -1,7 +1,7 @@
 a<?php
 namespace AddOns\Hetia\Domain\Repositories;
 
-use BlueFission\Connections\Database\MysqlLink;
+use BlueFission\Connections\Database\MySQLLink;
 use BlueFission\BlueCore\Repository\RepositorySql;
 use BlueFission\BlueCore\Domain\Repositories\IGenericRepository;
 use AddOns\Hestia\Domain\Models\ServiceProviderModel as Model;
@@ -9,7 +9,7 @@ use AddOns\Hestia\Domain\ServiceProvider;
 
 class ServiceProviderRepositorySql implements IServiceProviderRepository extends GenericRepositorySql
 {
-    public function __construct(MysqlLink $link)
+    public function __construct(MySQLLink $link)
     {
         $model = new ServiceProviderModel();
         parent::__construct($link, $model, "images");

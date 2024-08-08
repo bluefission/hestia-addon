@@ -264,7 +264,7 @@ class ScaffoldHestiaTables extends Delta
             $entity->timestamps();
         });
 
-        Scaffold::create('hestia_booking_statusus', function (Structure $entity) {
+        Scaffold::create('hestia_booking_statuses', function (Structure $entity) {
             $entity->incrementer('booking_status_id');
             $entity->text('name');
             $entity->text('description')->null();

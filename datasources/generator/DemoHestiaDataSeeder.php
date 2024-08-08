@@ -27,7 +27,7 @@ class DemoHestiaDataSeeder extends Generator
     {
         $faker = Faker::create();
 
-        $verifiedStatus = (new CredentialStatusModel())->read(['name' => CredentialStatus::VERIFIED])->first();
+        $verifiedStatus = (new CredentialStatusModel())->read(['name' => CredentialStatus::VERIFIED])->all()->first();
 
         $stylesArray = ['Cape Cod', 'Colonial', 'Craftsman', 'Ranch', 'Victorian', 'Tudor', 'Mediterranean', 'Contemporary', 'Modern', 'Farmhouse', 'Cottage', 'Bungalow', 'Spanish', 'French', 'Georgian', 'Greek Revival', 'Italianate', 'Mid-Century Modern', 'Prairie', 'Split-Level', 'Townhouse'];
 
@@ -175,14 +175,14 @@ class DemoHestiaDataSeeder extends Generator
                             break;
                         case 'Stories':
                             if ($floors) {
-                                continue;
+                                continue 2;
                             }
                             $stories = $stories ?? $faker->numberBetween(1, 3);
                             $value = $stories;
                             break;
                         case 'Floor':
                             if ($stories) {
-                                continue;
+                                continue 2;
                             }
                             $floor = $floor ?? $faker->numberBetween(1, 3);
                             $value = $floor;

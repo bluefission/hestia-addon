@@ -1,5 +1,5 @@
 {
-	"name": "name",
+	"name": "hestia-addon",
 	"version": "1.0.0",
 	"primary_file": "main.php",
 	"description": "AddOn for providing housing and home care services",

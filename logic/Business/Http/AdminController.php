@@ -8,6 +8,6 @@ class AdminController extends Service {
 
     public function main( ) 
     {
-        return template('students/ezdatta', 'panels/index.html');
+        return template('bluefission/hestia', 'panels/index.html');
     }
 }

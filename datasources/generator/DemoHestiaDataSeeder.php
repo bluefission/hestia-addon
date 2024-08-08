@@ -57,7 +57,7 @@ class DemoHestiaDataSeeder extends Generator
             $user = new UserModel();
             $user->realname = $faker->name();
             $user->displayname = $faker->userName();
-            $user->save();
+            $user->write();
 
             // Create Credential
             $credential = new CredentialModel();
@@ -66,7 +66,7 @@ class DemoHestiaDataSeeder extends Generator
             $credential->is_primary = 1;
             $credential->credential_status_id = $verifiedStatus->credential_status_id;
             $credential->user_id = $user->user_id;
-            $credential->save();
+            $credential->write();
 
             // Create Profile
             $profile = new ProfileModel();
@@ -78,7 +78,7 @@ class DemoHestiaDataSeeder extends Generator
             $profile->budget = $faker->randomFloat(2, 1000, 10000);
             $profile->budget_frequency_id = BudgetFrequencyEnum::cases()[rand(0, count(BudgetFrequencyEnum::cases()) - 1)]->value;
             $profile->notes = $faker->paragraph();
-            $profile->save();
+            $profile->write();
 
             if ($i < 10) {
                 // Seed fake service providers
@@ -88,7 +88,7 @@ class DemoHestiaDataSeeder extends Generator
                 $serviceProvider->name = $faker->company();
                 $serviceProvider->description = $faker->catchPhrase();
                 $serviceProvider->notes = $faker->paragraph();
-                $serviceProvider->save();
+                $serviceProvider->write();
 
                 $address = new AddressModel();
                 $address->parent_id = $serviceProvider->service_provider_id;
@@ -99,7 +99,7 @@ class DemoHestiaDataSeeder extends Generator
                 $address->state = $faker->state();
                 $address->zip = $faker->postcode();
                 $address->country = $faker->country();
-                $address->save();
+                $address->write();
             } elseif ($i < 20) {
                 // Seed fake homeowners
                 $lodging = new LodgingModel();
@@ -108,7 +108,7 @@ class DemoHestiaDataSeeder extends Generator
                 $lodging->profile_id = $profile->profile_id;
                 $lodging->description = $faker->paragraph();
                 $lodging->notes = $faker->paragraph();
-                $lodging->save();
+                $lodging->write();
 
                 // Seed metadata
                 $metadata = new LodgingMetaDataModel();
@@ -224,7 +224,7 @@ class DemoHestiaDataSeeder extends Generator
 
                     $metadata->value = $value;
                     $metadata->lodging_id = $lodging->lodging_id;
-                    $metadata->save();
+                    $metadata->write();
                 }
 
                 $address = new AddressModel();
@@ -236,7 +236,7 @@ class DemoHestiaDataSeeder extends Generator
                 $address->state = $faker->state();
                 $address->zip = $faker->postcode();
                 $address->country = $faker->country();
-                $address->save();
+                $address->write();
             } else {
                 // Seed fake seekers
                 $contact = new ContactModel();
@@ -245,7 +245,7 @@ class DemoHestiaDataSeeder extends Generator
                 $contact->name = $faker->name();
                 $contact->description = $faker->paragraph();
                 $contact->notes = $faker->paragraph();
-                $contact->save();
+                $contact->write();
 
                 $contactDetail = new ContactDetailModel();
                 $contactDetail->contact_id = $contact->contact_id;
@@ -256,7 +256,7 @@ class DemoHestiaDataSeeder extends Generator
                 $contactDetail->is_primary = rand(0, 1);
                 $contactDetail->is_public = rand(0, 1);
                 $contactDetail->is_verified = rand(0, 1);
-                $contactDetail->save();
+                $contactDetail->write();
             }
         }
     }

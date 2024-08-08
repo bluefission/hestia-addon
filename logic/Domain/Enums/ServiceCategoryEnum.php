@@ -2,7 +2,7 @@
 
 namespace AddOns\Hestia\Domain\Enums;
 
-enum ServiceCategoryeEnum: string {
+enum ServiceCategoryEnum: string {
 	case CLEANING = 'Cleaning';
 	case REPAIR = 'Repair';
 	case MAINTENANCE = 'Maintenance';

@@ -15,6 +15,10 @@ app.api.lodging.count = function(callback) {
 	this._transaction('lodgings/count', data, 'GET', callback);
 }
 
+app.api.lodging.managed.count = function(callback) {
+	this._transaction('lodgings/managed/count', data, 'GET', callback);
+}
+
 app.api.profile.count = function(callback) {
 	this._transaction('profiles/count', data, 'GET', callback);
 }
@@ -37,6 +41,14 @@ app.api.provider.services.active.count = function(callback) {
 
 app.api.request.count = function(callback) {
 	this._transaction('lodging_requests/count', data, 'GET', callback);
+}
+
+app.api.request.completed.count = function(callback) {
+	this._transaction('lodging_requests/completed/count', data, 'GET', callback);
+}
+
+app.api.request.active.count = function(callback) {
+	this._transaction('lodging_requests/active/count', data, 'GET', callback);
 }
 
 //== Class definition

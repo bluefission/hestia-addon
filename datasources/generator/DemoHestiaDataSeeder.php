@@ -4,6 +4,8 @@ use BlueFission\BlueCore\Datasource\Generator;
 use Faker\Factory as Faker;
 use AddOns\Hestia\Domain\Models\ProfileModel;
 use AddOns\Hestia\Domain\Models\LodgingModel;
+use AddOns\Hestia\Domain\Models\LodgingMetaDataModel;
+use AddOns\Hestia\Domain\Models\LodgingMetaKeyModel;
 use AddOns\Hestia\Domain\Models\AddressModel;
 use AddOns\Hestia\Domain\Models\ContactModel;
 use AddOns\Hestia\Domain\Models\ContactDetailModel;
@@ -123,9 +125,9 @@ class DemoHestiaDataSeeder extends Generator
                 $floors = null;
 
                 foreach ($keys as $key) {
-                    $metadata->lodging_meta_key_id = $key->lodging_meta_key_id;
+                    $metadata->lodging_meta_key_id = $key['lodging_meta_key_id'];
 
-                    switch($key->name) {
+                    switch($key['name']) {
                         case 'Price':
                             $value = $faker->randomFloat(2, 1000, 10000);
                             break;
@@ -218,6 +220,9 @@ class DemoHestiaDataSeeder extends Generator
                             $value = $faker->randomFloat(2, 100, 500);
                             break;
                         case 'Other':
+                            $value = $faker->word();
+                            break;
+                        default:
                             $value = $faker->word();
                             break;
                     }

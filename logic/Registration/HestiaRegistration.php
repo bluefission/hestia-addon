@@ -10,6 +10,7 @@ class HestiaRegistration implements IExtension
 {
 	private $_app;
 	private $_name = "Hestia";
+	private $_loader;
 
 	public function __construct()
 	{
@@ -20,8 +21,11 @@ class HestiaRegistration implements IExtension
 
 	public function init()
 	{
-		$this->_app->addTheme(new Theme('hestia/default', 'default'));
+		$this->_app->addTheme(new Theme('hestia-addon/default', 'hestia'));
 		$this->_loader->load("mapping.*");
+
+		$config = require OPUS_ROOT.'addons'.DIRECTORY_SEPARATOR.'hestia-addon'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'hestia.php';
+		$this->_app->configuration('hestia', $config);
 
 		$this->bindings();
 		$this->arguments();

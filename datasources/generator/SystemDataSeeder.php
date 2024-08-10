@@ -39,96 +39,96 @@ class SystemDataSeeder extends Generator
             $model = new ContactDetailTypeModel();
             $model->name = $type->value;
             $model->description = $type->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (ContactTypeEnum::cases() as $type) {
             $model = new ContactTypeModel();
             $model->name = $type->value;
             $model->description = $type->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (LodgingConditionEnum::cases() as $condition) {
             $model = new LodgingConditionModel();
             $model->name = $condition->value;
             $model->description = $condition->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (LodgingStabilityEnum::cases() as $stability) {
             $model = new LodgingStabilityModel();
             $model->name = $stability->value;
             $model->description = $stability->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (LodgingTypeEnum::cases() as $type) {
             $model = new LodgingTypeModel();
             $model->name = $type->value;
             $model->description = $type->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (ProfileTypeEnum::cases() as $type) {
             $model = new ProfileTypeModel();
             $model->name = $type->value;
             $model->description = $type->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (BudgetFrequencyEnum::cases() as $frequency) {
             $model = new BudgetFrequencyModel();
             $model->name = $frequency;
             $model->description = $frequency;
-            $model->save();
+            $model->write();
         }
 
         foreach (ServiceCategoryEnum::cases() as $category) {
             $model = new ServiceCategoryModel();
             $model->name = $category->value;
             $model->description = $category->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (ServiceChargeTypeEnum::cases() as $chargeType) {
             $model = new ServiceChargeTypeModel();
             $model->name = $chargeType->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (ServiceTimeframeUnitEnum::cases() as $unit) {
             $model = new ServiceTimeframeUnitModel();
             $model->name = $unit->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (UrgencyEnum::cases() as $urgency) {
             $model = new UrgencyModel();
             $model->name = $urgency->value;
             $model->description = $urgency->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (BookingStatusEnum::cases() as $status) {
             $model = new BookingStatusModel();
             $model->name = $status->value;
             $model->description = $status->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (LodgingMetaKeyEnum::cases() as $key) {
             $model = new LodgingMetaKeyModel();
             $model->name = $key->value;
             $model->description = $key->value;
-            $model->save();
+            $model->write();
         }
 
         foreach (AgeEnum::cases() as $age) {
             $model = new AgeModel();
             $model->name = $age->value;
             $model->description = $age->value;
-            $model->save();
+            $model->write();
         }
     }
 }

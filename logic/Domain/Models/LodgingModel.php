@@ -31,7 +31,7 @@ class LodgingModel extends Model {
 		return $this->ancestor(LodgingTypeModel::class, 'lodging_type_id');
 	}
 
-	public function condition()
+	public function lodgingCondition()
 	{
 		return $this->ancestor(LodgingConditionModel::class, 'lodging_condition_id');
 	}

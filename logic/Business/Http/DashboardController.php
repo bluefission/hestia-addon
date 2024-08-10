@@ -1,60 +1,80 @@
 <?php
-namespace AddOns\Students\Business\Http;
+namespace AddOns\Hestia\Business\Http;
 
 use BlueFission\Services\Service;
 use BlueFission\Services\Request;
 use BlueFission\BlueCore\Auth as Authenticator;
+use BlueFission\Services\Application as App;
 
 use BlueFission\Data\Storage\Storage;
 
 class DashboardController extends Service {
 
-	public function index( Storage $datasource ) 
+	public function index() 
     {
-        $auth = new Authenticator( $datasource );
+        $auth = App::makeInstance(Authenticator::class);
 
         if ( $auth->isAuthenticated() ) {
-            // globals('sideNav', $navMenuManager->renderMenu('sideNav'));
             $navMenuManager = instance('nav');
             $sideNav = $navMenuManager->renderMenu('sidebar');
-            return template('students/ezdatta', 'default.html', ['csrf_token'=>store('_token'), 'side-nav'=>$sideNav, 'title'=>env('APP_NAME')." Admin"]);
+            return template('hestia-addon/default', 'lodging-dashboard.html', ['csrf_token'=>store('_token'), 'side-nav'=>$sideNav, 'title'=>env('APP_NAME')." Dashbaord"]);
         } else {
-            return template('students/ezdatta', 'login.html', ['csrf_token'=>store('_token')]);
+            return template('hestia-addon/default', 'default.html', ['csrf_token'=>store('_token')]);
         }
+    }
+
+    public function seekerSignup() 
+    {
+        return template('hestia-addon/default', 'seeker-signup.html');
+    }
+
+    public function ownerSignup() 
+    {
+        return template('hestia-addon/default', 'owner-signup.html');
+    }
+
+    public function signup() 
+    {
+        return template('hestia-addon/default', 'signup.html');
+    }
+
+    public function login() 
+    {
+        return template('hestia-addon/default', 'login.html');
     }
 
     public function dashboard( ) 
     {
-        return template('students/ezdatta', 'panels/dashboard.html');
+        return template('hestia-addon/default', 'panels/dashboard.html');
     }
 
     public function users( ) 
     {
-        return template('students/ezdatta', 'panels/users.html', ['realname'=>'System Admin']);
+        return template('hestia-addon/default', 'panels/users.html', ['realname'=>'System Admin']);
     }
 
     public function addons( ) 
     {
-        return template('students/ezdatta', 'panels/addons.html');
+        return template('hestia-addon/default', 'panels/addons.html');
     }
 
     public function content( ) 
     {
-        return template('students/ezdatta', 'panels/content.html');
+        return template('hestia-addon/default', 'panels/content.html');
     }
 
     public function terminal( ) 
     {
-        return template('students/ezdatta', 'panels/terminal.html');
+        return template('hestia-addon/default', 'panels/terminal.html');
     }
 
     public function registration( ) 
     {
-        return template('students/ezdatta', 'register.html');
+        return template('hestia-addon/default', 'register.html');
     }
 
     public function forgotpassword( ) 
     {
-        return template('students/ezdatta', 'forgotpassword.html');
+        return template('hestia-addon/default', 'forgotpassword.html');
     }
 }

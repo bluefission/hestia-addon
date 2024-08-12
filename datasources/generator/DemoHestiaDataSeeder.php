@@ -3,13 +3,21 @@
 use BlueFission\BlueCore\Datasource\Generator;
 use Faker\Factory as Faker;
 use AddOns\Hestia\Domain\Models\ProfileModel;
+use AddOns\Hestia\Domain\Models\ProfileTypeModel;
 use AddOns\Hestia\Domain\Models\LodgingModel;
+use AddOns\Hestia\Domain\Models\LodgingTypeModel;
+use AddOns\Hestia\Domain\Models\LodgingConditionModel;
 use AddOns\Hestia\Domain\Models\LodgingMetaDataModel;
 use AddOns\Hestia\Domain\Models\LodgingMetaKeyModel;
+use AddOns\Hestia\Domain\Models\LodgingStabilityModel;
+use AddOns\Hestia\Domain\Models\BudgetFrequencyModel;
 use AddOns\Hestia\Domain\Models\AddressModel;
 use AddOns\Hestia\Domain\Models\ContactModel;
+use AddOns\Hestia\Domain\Models\ContactTypeModel;
 use AddOns\Hestia\Domain\Models\ContactDetailModel;
+use AddOns\Hestia\Domain\Models\ContactDetailTypeModel;
 use AddOns\Hestia\Domain\Models\ServiceProviderModel;
+use AddOns\Hestia\Domain\Models\ServiceCategoryModel;
 use App\Domain\User\Models\UserModel;
 use App\Domain\User\Models\CredentialModel;
 use App\Domain\User\Models\CredentialStatusModel;
@@ -22,6 +30,7 @@ use AddOns\Hestia\Domain\Enums\LodgingTypeEnum;
 use AddOns\Hestia\Domain\Enums\ProfileTypeEnum;
 use AddOns\Hestia\Domain\Enums\BudgetFrequencyEnum;
 use AddOns\Hestia\Domain\Enums\ServiceCategoryEnum;
+use BlueFission\Arr;
 
 class DemoHestiaDataSeeder extends Generator
 {
@@ -53,46 +62,94 @@ class DemoHestiaDataSeeder extends Generator
 
         $hoaArray = ['Yes', 'No'];
 
+        // Instantiate Models
+        $lodging = new LodgingModel();
+        $user = new UserModel();
+        $credential = new CredentialModel();
+        $profile = new ProfileModel();
+        $profileType = new ProfileTypeModel();
+        $metadata = new LodgingMetaDataModel();
+        $metakeys = new LodgingMetaKeyModel();
+        $lodgingStability = new LodgingStabilityModel();
+        $budgetFrequency = new BudgetFrequencyModel();
+        $serviceProvider = new ServiceProviderModel();
+        $serviceCategory = new ServiceCategoryModel();
+        $lodgingType = new LodgingTypeModel();
+        $lodgingCondition = new LodgingConditionModel();
+        $address = new AddressModel();
+        $contact = new ContactModel();
+        $contactType = new ContactTypeModel();
+        $contactDetail = new ContactDetailModel();
+        $contactDetailType = new ContactDetailTypeModel();
+
         // Seed fake users, profiles, and credentials
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             // Create User
-            $user = new UserModel();
+            $user->clear();
             $user->realname = $faker->name();
             $user->displayname = $faker->userName();
             $user->write();
+            echo 'Creating user '.$user->status()."\n";
 
             // Create Credential
-            $credential = new CredentialModel();
+            $credential->clear();
             $credential->username = $user->displayname;
             $credential->password = password_hash('password', PASSWORD_DEFAULT); // simple password for demo
             $credential->is_primary = 1;
             $credential->credential_status_id = $verifiedStatus->credential_status_id;
             $credential->user_id = $user->user_id;
             $credential->write();
+            echo 'Creating credential '.$credential->status()."\n";
+
+            $profileTypeValue = null;
+            if ($i < 10) {
+                $profileTypeValue = ProfileTypeEnum::VENDOR;
+            } elseif ($i < 20) {
+                $profileTypeValue = ProfileTypeEnum::OWNER;
+            } else {
+                $profileTypeValue = ProfileTypeEnum::SEEKER;
+            }
 
             // Create Profile
-            $profile = new ProfileModel();
+            $profile->clear();
+            $profile->profile_type_id = $profileType->clear()
+                ->field('name', $profileTypeValue->value)
+                ->read()
+                ->field('profile_type_id');
             $profile->user_id = $user->user_id;
             $profile->title = $faker->jobTitle();
             $profile->first_name = $faker->firstName();
             $profile->last_name = $faker->lastName();
             $profile->suffix = $faker->suffix();
+            $profile->current_lodging_id = null;
+            $profile->lodging_stability_id = $lodgingStability->clear()
+                ->field('name', LodgingStabilityEnum::cases()[rand(0, count(LodgingStabilityEnum::cases()) - 1)]->value)
+                ->read()
+                ->field('logding_stability_id');
             $profile->budget = $faker->randomFloat(2, 1000, 10000);
-            $profile->budget_frequency_id = BudgetFrequencyEnum::cases()[rand(0, count(BudgetFrequencyEnum::cases()) - 1)]->value;
+            $profile->budget_frequency_id = $budgetFrequency->clear()
+                ->field('name', BudgetFrequencyEnum::cases()[rand(0, count(BudgetFrequencyEnum::cases()) - 1)]->value)
+                ->read()
+                ->field('budget_frequency_id');
             $profile->notes = $faker->paragraph();
             $profile->write();
+            echo 'Creating profile '.$profile->status()."\n";
 
             if ($i < 10) {
                 // Seed fake service providers
-                $serviceProvider = new ServiceProviderModel();
-                $serviceProvider->service_category_id = ServiceCategoryEnum::cases()[rand(0, count(ServiceCategoryEnum::cases()) - 1)]->value;
+                $serviceProvider->clear();
+                $serviceProvider->service_category_id = $serviceCategory->clear()
+                    ->field('name', ServiceCategoryEnum::cases()[rand(0, count(ServiceCategoryEnum::cases()) - 1)]->value)
+                    ->read()
+                    ->field('service_category_id');
                 $serviceProvider->profile_id = $profile->profile_id;
                 $serviceProvider->name = $faker->company();
                 $serviceProvider->description = $faker->catchPhrase();
                 $serviceProvider->notes = $faker->paragraph();
                 $serviceProvider->write();
+                echo 'Creating service provider '.$serviceProvider->status()."\n";
 
-                $address = new AddressModel();
+                $address->clear();
                 $address->parent_id = $serviceProvider->service_provider_id;
                 $address->parent_type = ServiceProviderModel::class;
                 $address->address_line_one = $faker->streetAddress();
@@ -102,19 +159,34 @@ class DemoHestiaDataSeeder extends Generator
                 $address->zip = $faker->postcode();
                 $address->country = $faker->country();
                 $address->write();
+                echo 'Creating address '.$address->status()."\n";
+
             } elseif ($i < 20) {
                 // Seed fake homeowners
-                $lodging = new LodgingModel();
-                $lodging->lodging_type_id = LodgingTypeEnum::cases()[rand(0, count(LodgingTypeEnum::cases()) - 1)]->value;
-                $lodging->lodging_condition_id = LodgingConditionEnum::cases()[rand(0, count(LodgingConditionEnum::cases()) - 1)]->value;
-                $lodging->profile_id = $profile->profile_id;
-                $lodging->description = $faker->paragraph();
-                $lodging->notes = $faker->paragraph();
-                $lodging->write();
+                $count = rand(1, 4);
+                for ($j = 0; $j < $count; $j++) {
+                    $lodging->clear();
+                    $lodging->lodging_type_id = $lodgingType->clear()
+                        ->field('name', LodgingTypeEnum::cases()[rand(0, count(LodgingTypeEnum::cases()) - 1)]->value)
+                        ->read()
+                        ->field('lodging_type_id');
+                    $lodging->lodging_condition_id = $lodgingCondition->clear()
+                        ->field('name', LodgingConditionEnum::cases()[rand(0, count(LodgingConditionEnum::cases()) - 1)]->value)
+                        ->read()
+                        ->field('lodging_condition_id');
+                    $lodging->profile_id = $profile->profile_id;
+                    $lodging->description = $faker->paragraph();
+                    $lodging->notes = $faker->paragraph();
+                    $lodging->write();
+                    echo 'Creating lodging '.$lodging->status()."\n";
+                }
+
+                $profile->current_lodging_id = $lodging->lodging_id;
+                $profile->write();
 
                 // Seed metadata
-                $metadata = new LodgingMetaDataModel();
-                $metakeys = new LodgingMetaKeyModel();
+                $metadata->clear();
+                $metakeys->clear();
                 $keys = $metakeys->read()->all();
 
                 $metadata->lodging_id = $lodging->lodging_id;
@@ -126,7 +198,7 @@ class DemoHestiaDataSeeder extends Generator
 
                 foreach ($keys as $key) {
                     $metadata->lodging_meta_key_id = $key['lodging_meta_key_id'];
-
+                
                     switch($key['name']) {
                         case 'Price':
                             $value = $faker->randomFloat(2, 1000, 10000);
@@ -227,12 +299,17 @@ class DemoHestiaDataSeeder extends Generator
                             break;
                     }
 
+                    if ( $key['type'] == 'json' ) {
+                        $value = Arr::make($value)->toJson();
+                    }
+
                     $metadata->value = $value;
                     $metadata->lodging_id = $lodging->lodging_id;
                     $metadata->write();
+                    echo 'Creating metadata '.$metadata->status()."\n";
                 }
 
-                $address = new AddressModel();
+                $address->clear();
                 $address->parent_id = $lodging->lodging_id;
                 $address->parent_type = LodgingModel::class;
                 $address->address_line_one = $faker->streetAddress();
@@ -242,19 +319,48 @@ class DemoHestiaDataSeeder extends Generator
                 $address->zip = $faker->postcode();
                 $address->country = $faker->country();
                 $address->write();
+                echo 'Creating address '.$address->status()."\n";
             } else {
                 // Seed fake seekers
-                $contact = new ContactModel();
+                $hasLodging = rand(0, 1);
+                if ( $hasLodging ) {
+                    $lodging->clear();
+                    $lodging->lodging_type_id = $lodgingType->clear()
+                        ->field('name', LodgingTypeEnum::cases()[rand(0, count(LodgingTypeEnum::cases()) - 1)]->value)
+                        ->read()
+                        ->field('lodging_type_id');
+                    $lodging->lodging_condition_id = $lodgingCondition->clear()
+                        ->field('name', LodgingConditionEnum::cases()[rand(0, count(LodgingConditionEnum::cases()) - 1)]->value)
+                        ->read()
+                        ->field('lodging_condition_id');
+                    $lodging->profile_id = $profile->profile_id;
+                    $lodging->description = $faker->paragraph();
+                    $lodging->notes = $faker->paragraph();
+                    $lodging->write();
+                    echo 'Creating lodging '.$lodging->status()."\n";
+
+                    $profile->current_lodging_id = $lodging->lodging_id;
+                    $profile->write();
+                }
+
+                $contact->clear();
                 $contact->profile_id = $profile->profile_id;
-                $contact->contact_type_id = ContactTypeEnum::cases()[rand(0, count(ContactTypeEnum::cases()) - 1)]->value;
+                $contact->contact_type_id = $contactType->clear()
+                    ->field('name', ContactTypeEnum::cases()[rand(0, count(ContactTypeEnum::cases()) - 1)]->value)
+                    ->read()
+                    ->field('contact_type_id');
                 $contact->name = $faker->name();
                 $contact->description = $faker->paragraph();
                 $contact->notes = $faker->paragraph();
                 $contact->write();
+                echo 'Creating contact '.$contact->status()."\n";
 
-                $contactDetail = new ContactDetailModel();
+                $contactDetail->clear();
                 $contactDetail->contact_id = $contact->contact_id;
-                $contactDetail->contact_detail_type_id = ContactDetailTypeEnum::cases()[rand(0, count(ContactDetailTypeEnum::cases()) - 1)]->value;
+                $contactDetail->contact_detail_type_id = $contactDetailType->clear()
+                    ->field('name', ContactDetailTypeEnum::cases()[rand(0, count(ContactDetailTypeEnum::cases()) - 1)]->value)
+                    ->read()
+                    ->field('contact_detail_type_id');
                 $contactDetail->name = $faker->word();
                 $contactDetail->value = $faker->phoneNumber();
                 $contactDetail->notes = $faker->paragraph();
@@ -262,6 +368,7 @@ class DemoHestiaDataSeeder extends Generator
                 $contactDetail->is_public = rand(0, 1);
                 $contactDetail->is_verified = rand(0, 1);
                 $contactDetail->write();
+                echo 'Creating contact detail '.$contactDetail->status()."\n";
             }
         }
     }

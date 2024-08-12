@@ -35,6 +35,33 @@ class SystemDataSeeder extends Generator
 {
     public function populate()
     {
+        $metaKeyTypes = [
+            LodgingMetaKeyEnum::PRICE->value => 'number',
+            LodgingMetaKeyEnum::STYLE->value => 'string',
+            LodgingMetaKeyEnum::BEDROOMS->value => 'number',
+            LodgingMetaKeyEnum::BATHROOMS->value => 'number',
+            LodgingMetaKeyEnum::SQUARE_FEET->value => 'number',
+            LodgingMetaKeyEnum::LOT_SIZE->value => 'number',
+            LodgingMetaKeyEnum::YEAR_BUILT->value => 'number',
+            LodgingMetaKeyEnum::YEAR_RENOVATED->value => 'number',
+            LodgingMetaKeyEnum::PARKING->value => 'json',
+            LodgingMetaKeyEnum::HEATING->value => 'string',
+            LodgingMetaKeyEnum::COOLING->value => 'string',
+            LodgingMetaKeyEnum::STORIES->value => 'number',
+            LodgingMetaKeyEnum::FLOOR->value => 'number',
+            LodgingMetaKeyEnum::CONSTRUCTION->value => 'string',
+            LodgingMetaKeyEnum::ROOF->value => 'string',
+            LodgingMetaKeyEnum::EXTERIOR->value => 'json',
+            LodgingMetaKeyEnum::FLOORING->value => 'json',
+            LodgingMetaKeyEnum::APPLIANCES->value => 'json',
+            LodgingMetaKeyEnum::AMENITIES->value => 'json',
+            LodgingMetaKeyEnum::UTILITIES->value => 'json',
+            LodgingMetaKeyEnum::HOA->value => 'number',
+            LodgingMetaKeyEnum::TAXES->value => 'number',
+            LodgingMetaKeyEnum::INSURANCE->value => 'number',
+            LodgingMetaKeyEnum::OTHER->value => 'json',
+        ];
+
         foreach (ContactDetailTypeEnum::cases() as $type) {
             $model = new ContactDetailTypeModel();
             $model->name = $type->value;
@@ -120,6 +147,7 @@ class SystemDataSeeder extends Generator
         foreach (LodgingMetaKeyEnum::cases() as $key) {
             $model = new LodgingMetaKeyModel();
             $model->name = $key->value;
+            $model->type = $metaKeyTypes[$key->value];
             $model->description = $key->value;
             $model->write();
         }
